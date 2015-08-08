@@ -7,4 +7,5 @@
     <string name="title_activity_display_message">My Message</string>
     <string name="search_front">Zoek je kindje</string>
     <string name="intro_text">Welkom bij De Kikkersprong, scan je kaartje!</string>
+    <string name="title_activity_detail">detailActivity</string>
 </resources>
