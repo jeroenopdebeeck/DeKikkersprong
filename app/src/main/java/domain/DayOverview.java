@@ -14,7 +14,7 @@ public class DayOverview {
     //Dayoverview gets generated on checkout
     public DayOverview(CheckOut checkout){
 
-        
+
         day = checkout.getEndTime();
         totalHours = checkout.getHours();
         child = checkout.getChild();
