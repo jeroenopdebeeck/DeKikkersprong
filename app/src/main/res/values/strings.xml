@@ -8,4 +8,7 @@
     <string name="search_front">Zoek je kindje</string>
     <string name="intro_text">Welkom bij De Kikkersprong, scan je kaartje!</string>
     <string name="title_activity_detail">detailActivity</string>
+    <string name="title_activity_greet">GreetActivity</string>
+    <string name="button_scan">Scan</string>
+    <string name="title_activity_facturation">FacturationActivity</string>
 </resources>

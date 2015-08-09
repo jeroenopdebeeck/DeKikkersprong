@@ -20,6 +20,14 @@
             android:name=".detailActivity"
             android:label="@string/title_activity_detail" >
         </activity>
+        <activity
+            android:name=".GreetActivity"
+            android:label="@string/title_activity_greet" >
+        </activity>
+        <activity
+            android:name=".FacturationActivity"
+            android:label="@string/title_activity_facturation" >
+        </activity>
     </application>
 
 </manifest>
