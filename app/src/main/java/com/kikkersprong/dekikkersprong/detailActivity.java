@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class detailActivity extends AppCompatActivity {
 
@@ -14,12 +15,19 @@ public class detailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        setTitle("Details voor Lotje");
         String[] details = {"Maandag 7 april 5u", "Dinsdag 8 april 6.5 u"};
+        String[] rekeningen = {"April 250€", "Maart 350€","Januari 150€",};
 
-        final ListView listview = (ListView) findViewById(R.id.detailView);
+        final ListView listview = (ListView) findViewById(R.id.detailViewAanwezigheden);
+        final ListView listview2 = (ListView) findViewById(R.id.detailViewRekeningen);
         final ArrayAdapter adapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1, details);
+        final ArrayAdapter adapter2 = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_1, rekeningen);
         listview.setAdapter(adapter);
+        listview2.setAdapter(adapter2);
+
     }
 
     @Override

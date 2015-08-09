@@ -4,12 +4,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
+
+    <EditText
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id= "@+id/detailView">
+        android:layout_height="wrap_content"
+        android:id="@+id/aanwezighedenLabel"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="Aanwezigheden" />
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:id= "@+id/detailViewAanwezigheden">
 
 
+    </ListView>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rekeningenLabel"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="Rekeningen" />
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:id= "@+id/detailViewRekeningen">
     </ListView>
 
 </LinearLayout>
