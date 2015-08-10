@@ -1,9 +1,13 @@
 package com.kikkersprong.dekikkersprong;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class FacturationActivity extends AppCompatActivity {
 
@@ -11,6 +15,9 @@ public class FacturationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facturation);
+
+
+
     }
 
     @Override
@@ -33,5 +40,19 @@ public class FacturationActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showList(View view) {
+
+        String[] rekeningen = {"April 250€", "Maart 350€","Januari 150€"};
+
+        ListView listview = (ListView) findViewById(R.id.detailViewFactuur);
+        ArrayAdapter adapter = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_1, rekeningen);
+        listview.setAdapter(adapter);
+
+        adapter.notifyDataSetChanged();
+        System.out.println("test2");
+
     }
 }

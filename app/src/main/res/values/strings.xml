@@ -11,4 +11,5 @@
     <string name="title_activity_greet">GreetActivity</string>
     <string name="button_scan">Scan</string>
     <string name="title_activity_facturation">FacturationActivity</string>
+    <string name="button_factuur">Genereer factuur</string>
 </resources>

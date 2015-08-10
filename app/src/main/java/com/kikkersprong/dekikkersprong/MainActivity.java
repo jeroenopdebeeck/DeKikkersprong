@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void openGreet(View view) {
 
-        Intent intent = new Intent(this, GreetActivity.class);
+        Intent intent = new Intent(this, FacturationActivity.class);
         startActivity(intent);
     }
 
