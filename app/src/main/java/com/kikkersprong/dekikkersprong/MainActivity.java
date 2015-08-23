@@ -41,12 +41,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void openDetail(View view) {
 
-        Intent intent = new Intent(this, detailActivity.class);
-        startActivity(intent);
-
-    }
 
     public void openGreet(View view) {
 
