@@ -1,11 +1,15 @@
 package domain;
 
 
+import java.util.ArrayList;
+
 public class Child {
 
     private long id;
     private String firstName;
     private String lastName;
+    private ArrayList<Visit> visits = new ArrayList<Visit>();
+    private boolean present = false;
 
     public Child(){
 
@@ -46,6 +50,10 @@ public class Child {
         this.id = id;
     }
 
+    public ArrayList<Visit> getVisits(){
+        return visits;
+    }
+
     @Override
     public String toString() {
         return "Child{" +
@@ -69,5 +77,22 @@ public class Child {
     @Override
     public int hashCode() {
         return (int) (id ^ (id >>> 32));
+    }
+
+    public void scanCard() {
+        if(!present){
+            Visit visit = new Visit();
+            visit.setStartTime();
+            visits.add(visit);
+            present = true;
+        }
+
+        else if(present){
+            Visit visit = visits.get(visits.size()-1);
+            visit.setEndTime();
+            visit.setP();
+            visit.setHours();
+            present = false;
+        }
     }
 }

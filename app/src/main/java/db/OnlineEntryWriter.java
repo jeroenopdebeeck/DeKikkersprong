@@ -9,17 +9,12 @@ public class OnlineEntryWriter implements EntryWriter {
 
 
     @Override
-    public void writeCheckIn(CheckIn checkIn) {
+    public void writeAllVisits() {
 
     }
 
     @Override
-    public void writeCheckOut(CheckOut checkOut) {
-
-    }
-
-    @Override
-    public void writeOverview(Overview overview) {
+    public void writeAllChildren() {
 
     }
 }

@@ -7,8 +7,8 @@ import domain.Overview;
 
 public interface EntryWriter {
 
-    public void writeCheckIn(CheckIn checkIn);
-    public void writeCheckOut(CheckOut checkOut);
-    public void writeOverview(Overview overview);
+    public void writeAllVisits();
+    public void writeAllChildren();
+
 
 }
