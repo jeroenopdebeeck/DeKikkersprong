@@ -8,16 +8,51 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import db.OfflineEntryWriter;
+import domain.Child;
+import domain.Visit;
+
 public class detailActivity extends AppCompatActivity {
+
+    private int id;
+    private String firstname;
+    private String lastname;
+    private OfflineEntryWriter db;
+    private Child child;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        setTitle("Details voor Lotje");
-        String[] details = {"Maandag 7 april 5u", "Dinsdag 8 april 6.5 u"};
-        String[] rekeningen = {"April 250€", "Maart 350€","Januari 150€",};
+        db = OfflineEntryWriter.getInstance(getApplicationContext());
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            id = extras.getInt("id");
+            firstname = extras.getString("firstname");
+            lastname = extras.getString("lastname");
+        }
+
+        child = db.addChild(id, firstname, lastname);
+
+        setTitle("Details voor " + child.getFirstName() + " " + child.getLastName());
+        Visit[] details = child.getVisits().toArray(new Visit[child.getVisits().size()]);
+
+        HashMap<Integer,Double> factuurPerMonth = child.generateFacturationPerMonth();
+        ArrayList<String> rekeningenList = new ArrayList<String>();
+
+        for (HashMap.Entry<Integer,Double> entry : factuurPerMonth.entrySet())
+        {
+           String factuur = entry.getKey().toString() + " " + entry.getValue().toString();
+            rekeningenList.add(factuur);
+        }
+        String[] rekeningen = rekeningenList.toArray(new String[rekeningenList.size()]);
+
 
         final ListView listview = (ListView) findViewById(R.id.detailViewAanwezigheden);
         final ListView listview2 = (ListView) findViewById(R.id.detailViewRekeningen);

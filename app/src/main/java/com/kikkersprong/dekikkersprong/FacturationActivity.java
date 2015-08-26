@@ -10,20 +10,30 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import db.OfflineEntryWriter;
+import domain.Child;
+
 public class FacturationActivity extends AppCompatActivity {
 
+    private OfflineEntryWriter db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facturation);
 
-        String[] kids = {"Arno Swinnen", "Jeroen Opdebeeck", "Kathleen Bellen"};
+        db = OfflineEntryWriter.getInstance(getApplicationContext());
+
+
+        ArrayList<Child> kids = db.getAllChildren();
 
         Spinner spinner = (Spinner) findViewById(R.id.kids_spinner);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_spinner_item,kids);
+                android.R.layout.simple_spinner_item, kids);
 // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
@@ -55,7 +65,18 @@ public class FacturationActivity extends AppCompatActivity {
 
     public void showList(View view) {
 
-        String[] rekeningen = {"April 250€", "Maart 350€","Januari 150€"};
+
+        Spinner mySpinner=(Spinner) findViewById(R.id.kids_spinner);
+        Child child = (Child) mySpinner.getSelectedItem();
+        HashMap<Integer,Double> factuurPerMonth = child.generateFacturationPerMonth();
+        ArrayList<String> rekeningenList = new ArrayList<String>();
+
+        for (HashMap.Entry<Integer,Double> entry : factuurPerMonth.entrySet())
+        {
+            String factuur = entry.getKey().toString() + " " + entry.getValue().toString();
+            rekeningenList.add(factuur);
+        }
+        String[] rekeningen = rekeningenList.toArray(new String[rekeningenList.size()]);
 
         ListView listview = (ListView) findViewById(R.id.detailViewFactuur);
         ArrayAdapter adapter = new ArrayAdapter(this,
@@ -63,7 +84,7 @@ public class FacturationActivity extends AppCompatActivity {
         listview.setAdapter(adapter);
 
         adapter.notifyDataSetChanged();
-        System.out.println("test2");
+
 
     }
 }

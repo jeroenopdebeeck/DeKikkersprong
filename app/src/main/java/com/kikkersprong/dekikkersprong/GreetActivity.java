@@ -1,6 +1,7 @@
 package com.kikkersprong.dekikkersprong;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,15 +9,62 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import db.OfflineEntryWriter;
+import domain.Child;
+
 public class GreetActivity extends AppCompatActivity {
+
+
+    private int id;
+    private String firstname;
+    private String lastname;
+    private OfflineEntryWriter db;
+    private Child child;
+    final Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_greet);
 
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showMain();
+            }
+        }, 5000);
+
+        db = OfflineEntryWriter.getInstance(getApplicationContext());
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            id = extras.getInt("id");
+            firstname = extras.getString("firstname");
+            lastname = extras.getString("lastname");
+        }
+
         final TextView message = (TextView) findViewById(R.id.textViewGreeting);
-        message.setText("Welkom Lotje");
+        message.setText(firstname + " " + lastname);
+
+        //add child to db
+        child = db.addChild(id, firstname, lastname);
+
+        //register visit
+        child.scanCard();
+
+
+        db.writeAllChildren();
+        db.writeAllVisits();
+        try {
+            db.readAllVisits();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -43,8 +91,19 @@ public class GreetActivity extends AppCompatActivity {
     }
 
     public void showDetail(View view) {
+        handler.removeCallbacksAndMessages(null);
 
-        Intent intent = new Intent(this, detailActivity.class);
+        Intent intent = new Intent(getApplicationContext(), detailActivity.class);
+        intent.putExtra("id", id);
+        intent.putExtra("firstname",firstname);
+        intent.putExtra("lastname",lastname);
+        startActivity(intent);
+    }
+
+    public void showMain() {
+        handler.removeCallbacksAndMessages(null);
+
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }

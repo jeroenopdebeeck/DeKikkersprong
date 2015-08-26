@@ -1,6 +1,6 @@
 package com.kikkersprong.dekikkersprong;
 
-import android.content.Context;
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private Button scanBtn;
-    private TextView formatTxt, contentTxt;
+    private TextView contentTxt;
     private OfflineEntryWriter db;
 
     @Override
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(id == -1) {
                 openFacturation();
             } else {
-                openGreet();
+                openGreet(id,firstname,lastname);
             }
         }
 
@@ -113,9 +113,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-    public void openGreet() {
+    public void openGreet(int id, String firstname, String lastname) {
 
-        Intent intent = new Intent(this, GreetActivity.class);
+        Intent intent = new Intent(getApplicationContext(), GreetActivity.class);
+        intent.putExtra("id", id);
+        intent.putExtra("firstname",firstname);
+        intent.putExtra("lastname",lastname);
         startActivity(intent);
 
     }
