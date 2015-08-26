@@ -170,6 +170,10 @@ public class OfflineEntryWriter implements EntryWriter {
         return valuesList;
     }
 
+    public HashMap<Integer,Child> getChildrenMap() {
+        return children;
+    }
+
 
 
 

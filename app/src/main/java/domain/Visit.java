@@ -92,4 +92,26 @@ public class Visit {
         return day + "/" + month + ": " + begin + " " + end + ", " + hours + " hours";
     }
 
+    public String getBegin() {
+        DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("HH:mm:ss");
+
+        String begin = "";
+
+        if(startTime != null) {
+            begin = startTime.toString(dateFormatter);
+        }
+        return begin;
+    }
+
+    public String getEnd() {
+
+        DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("HH:mm:ss");
+        String end = "";
+
+        if(endTime != null) {
+            end = endTime.toString(dateFormatter);
+        }
+        return end;
+    }
+
 }

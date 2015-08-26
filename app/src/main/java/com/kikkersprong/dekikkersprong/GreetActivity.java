@@ -42,11 +42,15 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import db.OfflineEntryWriter;
 import domain.Child;
+import domain.Visit;
 
 public class GreetActivity extends AppCompatActivity {
 
@@ -146,6 +150,7 @@ public class GreetActivity extends AppCompatActivity {
             public void run() {
                 try {
                     flushData();
+                    flushDataVisits();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -159,15 +164,19 @@ public class GreetActivity extends AppCompatActivity {
     private void flushData() throws IOException, JSONException {
 
 
-        //
-       // String url = "http://10.0.2.2:8080/sample1/webservice2.php?" +
-       //             "json={\"UserName\":1,\"FullName\":2}";
+        HashMap<Integer,Child> map = db.getChildrenMap();
 
-        String url = "https://r0307913.webontwerp.khleuven.be/android/writeAllChildren.php?+json=" + URLEncoder.encode("{\"id\":" + "\"" +id+ "\"" + ",\"voornaam\":" + "\"" +firstname+ "\"" + ",\"naam\":" +  "\"" +lastname+ "\"" + "}");
-        System.out.println(url);
+        for (HashMap.Entry<Integer, Child> entry : map.entrySet()) {
+            int key = entry.getKey();
+            Child value = entry.getValue();
+
+            int id = key;
+            String voornaam = value.getFirstName();
+            String naam = value.getLastName();
+
+            String url = "https://r0307913.webontwerp.khleuven.be/android/writeAllChildren.php?+json=" + URLEncoder.encode("{\"id\":" + "\"" +id+ "\"" + ",\"voornaam\":" + "\"" +voornaam+ "\"" + ",\"naam\":" +  "\"" +naam+ "\"" + "}");
+            System.out.println(url);
             HttpClient httpclient = new DefaultHttpClient();
-
-
             HttpResponse response = httpclient.execute(new HttpGet(url));
             StatusLine statusLine = response.getStatusLine();
             if(statusLine.getStatusCode() == HttpStatus.SC_OK){
@@ -181,6 +190,52 @@ public class GreetActivity extends AppCompatActivity {
                 response.getEntity().getContent().close();
                 throw new IOException(statusLine.getReasonPhrase());
             }
+
+        }
+
+
+    }
+
+    private void flushDataVisits() throws IOException, JSONException {
+
+
+        HashMap<Integer,Child> map = db.getChildrenMap();
+
+        for(Map.Entry<Integer, Child> entry : map.entrySet()){
+            ArrayList<Visit> visits = entry.getValue().getVisits();
+            int id = entry.getKey();
+
+            for(Visit visit : visits) {
+
+            int day = visit.getDay();
+            int month = visit.getMonth();
+            String begin = visit.getBegin();
+            String end = visit.getEnd();
+            double hours = visit.getHours();
+                if(!end.equals("")) {
+                    String url = "https://r0307913.webontwerp.khleuven.be/android/writeAllVisits.php?+json=" + URLEncoder.encode("{\"id\":" + "\"" + id + "\"" + ",\"day\":" + "\"" + day + "\"" + ",\"month\":" + "\"" + month + "\"" + ",\"begin\":" + "\"" + begin + "\"" + ",\"end\":" + "\"" + end + "\"" + ",\"hours\":" + "\"" + hours + "\"" + "}");
+                    System.out.println(url);
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpResponse response = httpclient.execute(new HttpGet(url));
+
+                    StatusLine statusLine = response.getStatusLine();
+
+                    if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+                        ByteArrayOutputStream out = new ByteArrayOutputStream();
+                        response.getEntity().writeTo(out);
+                        String responseString = out.toString();
+                        out.close();
+                        //..more logic
+                    } else {
+                        //Closes the connection.
+                        response.getEntity().getContent().close();
+                        throw new IOException(statusLine.getReasonPhrase());
+                    }
+                }
+
+
+            }
+        }
 
 
     }
