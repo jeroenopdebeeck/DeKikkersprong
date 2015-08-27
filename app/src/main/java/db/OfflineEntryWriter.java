@@ -3,24 +3,16 @@ package db;
 
 import android.content.Context;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import domain.CheckIn;
-import domain.CheckOut;
 import domain.Child;
-import domain.Overview;
 import domain.Visit;
 
 public class OfflineEntryWriter implements EntryWriter {
