@@ -1,15 +1,33 @@
 package com.kikkersprong.dekikkersprong;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.exception.DropboxException;
+import com.dropbox.client2.exception.DropboxUnlinkedException;
+import com.dropbox.client2.session.AccessTokenPair;
+import com.dropbox.client2.session.AppKeyPair;
+import com.dropbox.client2.session.Session;
+import com.dropbox.client2.session.TokenPair;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,6 +37,14 @@ import domain.Child;
 public class FacturationActivity extends AppCompatActivity {
 
     private OfflineEntryWriter db;
+
+    private DropboxAPI<AndroidAuthSession> dropbox;
+    private final static String FILE_DIR = "/DropboxSample/";
+    private final static String DROPBOX_NAME = "DeKikkersprong";
+    private final static String APP_KEY = "d2keznd0yda8ws5";
+    private final static String APP_SECRET = "e7qpod9s10dydhz";
+    private boolean isLoggedIn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +65,32 @@ public class FacturationActivity extends AppCompatActivity {
 // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
+
+
+
+        AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
+        AndroidAuthSession session = new AndroidAuthSession(appKeys);
+        dropbox = new DropboxAPI<AndroidAuthSession>(session);
+        dropbox.getSession().startOAuth2Authentication(FacturationActivity.this);
+
     }
+
+    protected void onResume() {
+        super.onResume();
+
+        if (dropbox.getSession().authenticationSuccessful()) {
+            try {
+                // Required to complete auth, sets the access token on the session
+                dropbox.getSession().finishAuthentication();
+
+                String accessToken = dropbox.getSession().getOAuth2AccessToken();
+            } catch (IllegalStateException e) {
+                Log.i("DbAuthLog", "Error authenticating", e);
+            }
+        }
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -84,6 +135,15 @@ public class FacturationActivity extends AppCompatActivity {
         listview.setAdapter(adapter);
 
         adapter.notifyDataSetChanged();
+
+
+    }
+
+    public void writeFactuur(View view) throws DropboxException, IOException {
+
+
+        UploadFileToDropbox upload = new UploadFileToDropbox(getApplicationContext(),dropbox);
+        upload.execute();
 
 
     }

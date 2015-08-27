@@ -12,4 +12,6 @@
     <string name="button_scan">Scan</string>
     <string name="title_activity_facturation">FacturationActivity</string>
     <string name="button_factuur">Genereer factuur</string>
+    <string name ="greeting">Welkom</string>
+    <string name ="goodbye">Tot de volgende keer</string>
 </resources>

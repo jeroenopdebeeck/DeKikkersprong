@@ -133,5 +133,9 @@ public class Child {
         return price;
     }
 
+    public boolean getPresent(){
+        return this.present;
+    }
+
 
 }

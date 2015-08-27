@@ -92,11 +92,15 @@ public class GreetActivity extends AppCompatActivity {
         }
 
         final TextView message = (TextView) findViewById(R.id.textViewGreeting);
-        message.setText(firstname + " " + lastname);
+
 
         //add child to db
         child = db.addChild(id, firstname, lastname);
-
+        if(!child.getPresent()) {
+            message.setText(getString(R.string.greeting) + " " + firstname + " " + lastname + "!");
+        }else if(child.getPresent()) {
+            message.setText(getString(R.string.goodbye) + " " + firstname + " " + lastname + "!");
+        }
         //register visit
         child.scanCard();
 
