@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -98,8 +99,12 @@ public class GreetActivity extends AppCompatActivity {
         child = db.addChild(id, firstname, lastname);
         if(!child.getPresent()) {
             message.setText(getString(R.string.greeting) + " " + firstname + " " + lastname + "!");
+            ImageView img= (ImageView) findViewById(R.id.imageViewGreet);
+            img.setImageResource(R.drawable.welcome);
         }else if(child.getPresent()) {
             message.setText(getString(R.string.goodbye) + " " + firstname + " " + lastname + "!");
+            ImageView img= (ImageView) findViewById(R.id.imageViewGreet);
+            img.setImageResource(R.drawable.bye);
         }
         //register visit
         child.scanCard();
