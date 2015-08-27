@@ -19,13 +19,14 @@ import com.dropbox.client2.exception.DropboxUnlinkedException;
 public class UploadFileToDropbox extends AsyncTask<Void, Void, Boolean> {
 
     private DropboxAPI<?> dropbox;
-    private String path;
+    private String text;
     private Context context;
 
-    public UploadFileToDropbox(Context context, DropboxAPI<?> dropbox
+    public UploadFileToDropbox(Context context, DropboxAPI<?> dropbox, String text
                                ) {
         this.context = context.getApplicationContext();
         this.dropbox = dropbox;
+        this.text = text;
     }
 
     @Override
@@ -43,8 +44,8 @@ public class UploadFileToDropbox extends AsyncTask<Void, Void, Boolean> {
 
 
     public void uploadFile(Context ctx) throws IOException {
-        String FILENAME = "hello_file";
-        String string = "hello world! how are you today";
+        String FILENAME = "factuur_file";
+        String string = text;
 
         File path = ctx.getFilesDir();
         File tmpFile = new File(path, FILENAME);
@@ -56,7 +57,7 @@ public class UploadFileToDropbox extends AsyncTask<Void, Void, Boolean> {
         FileInputStream fis = new FileInputStream(tmpFile);
 
         try {
-            DropboxAPI.Entry newEntry = dropbox.putFile("test.txt", fis, tmpFile.length(), null, null);
+            DropboxAPI.Entry newEntry = dropbox.putFile("factuur.txt", fis, tmpFile.length(), null, null);
         } catch (DropboxUnlinkedException e) {
             Log.e("DbExampleLog", "User has unlinked.");
         } catch (DropboxException e) {

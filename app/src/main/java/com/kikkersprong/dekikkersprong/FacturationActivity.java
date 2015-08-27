@@ -141,8 +141,12 @@ public class FacturationActivity extends AppCompatActivity {
 
     public void writeFactuur(View view) throws DropboxException, IOException {
 
+        Spinner mySpinner=(Spinner) findViewById(R.id.kids_spinner);
+        Child child = (Child) mySpinner.getSelectedItem();
 
-        UploadFileToDropbox upload = new UploadFileToDropbox(getApplicationContext(),dropbox);
+        String factuur = child.generateTotalFacturation();
+
+        UploadFileToDropbox upload = new UploadFileToDropbox(getApplicationContext(),dropbox,factuur);
         upload.execute();
 
 

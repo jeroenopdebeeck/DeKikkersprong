@@ -117,7 +117,7 @@ public class Child {
         return factuurPerMonth;
     }
 
-    public Double generateTotalFacturation() {
+    public String generateTotalFacturation() {
 
         Double price = 0.00;
         //Prijs = 10 euro per uur
@@ -130,7 +130,7 @@ public class Child {
 
         }
 
-        return price;
+        return "Te betalen voor " + firstName + " " + lastName + ": " + price + " euro.";
     }
 
     public boolean getPresent(){
